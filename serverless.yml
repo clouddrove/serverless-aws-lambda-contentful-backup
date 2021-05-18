@@ -1,0 +1,26 @@
+service: auto-backups
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 2000
+  timeout: 900
+  stage: ${opt:stage, env:STAGE, 'production'}
+  region: ${opt:region, env:REGION, 'us-east-1'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+        - ssm:*
+      Resource: "*"
+
+functions:
+  autobackup:
+    handler: index.handler
+    environment:
+      S3_BUCKET_NAME: ${opt:bucket_name}
+      SPACE_ENV: ${ssm:/${opt:stage}/contentful/environment}
+      SPACE_ID: ${ssm:/${opt:stage}/contentful/space_id}
+      MANAGEMENT_TOKEN: ${ssm:/${opt:stage}/contentful/cms_authorization_token}
+    events: 
+      - schedule: ${opt:schedule}                
