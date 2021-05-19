@@ -1,5 +1,25 @@
 service: auto-backups
 
+resources:
+  Resources:
+    UploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${opt:bucket_name}
+        AccessControl: Private
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+        VersioningConfiguration: 
+          Status: Enabled
+        LifecycleConfiguration:
+          Rules:
+            - Id: TerminationRule
+              Status: Enabled
+              ExpirationInDays: ${opt:expiration_days}
+              NoncurrentVersionExpirationInDays: ${opt:expiration_days}
+
 provider:
   name: aws
   runtime: nodejs12.x

@@ -24,7 +24,7 @@ dev/contentful/cms_authorization_token
 Deploy lambda function to your AWS account via following command.
 
 ```
-serverless deploy --stage="dev" --bucket_name="s3-bucket-name" --region="us-east-1" --schedule="cron(0 0 1 */1 ? *)"
+serverless deploy --stage="dev" --bucket_name="s3-bucket-name" --region="us-east-1" --schedule="rate(1 day)" --expiration_days=30
 ```
 
 ## How to Remove
@@ -32,7 +32,7 @@ serverless deploy --stage="dev" --bucket_name="s3-bucket-name" --region="us-east
 Remove lambda function to your AWS account via following command.
 
 ```
-serverless remove --stage="dev" --bucket_name="s3-bucket-name" --region="us-east-1" --schedule="cron(0 0 1 */1 ? *)"
+serverless remove --stage="dev" --bucket_name="s3-bucket-name" --region="us-east-1" --schedule="rate(1 day)" --expiration_days=30
 ```
 
 ## Feedback
